@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Camp Nevada | Explore Nevada Camping</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f3eb;color:#26352c}
+header{background:#183b32;color:white;padding:24px;text-align:center}
+header h1{margin:0;font-size:34px}
+header p{margin:10px 0}
+nav{background:#d5aa69;padding:13px;text-align:center}
+nav a{color:#182e28;margin:0 12px;text-decoration:none;font-weight:bold}
+.hero{padding:55px 20px;text-align:center;background:linear-gradient(135deg,#254f40,#6b7955);color:white}
+.hero h2{font-size:30px;margin:0 0 15px}
+.hero p{line-height:1.6}
+.search{padding:25px 15px;max-width:850px;margin:auto}
+input,select{width:100%;padding:14px;margin:7px 0;border:1px solid #bbb;border-radius:7px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;padding:20px;max-width:1100px;margin:auto}
+.card{background:white;border-radius:12px;padding:22px;box-shadow:0 3px 12px #0002}
+.card h3{margin-top:0}
+.tag{color:#54744f;font-weight:bold}
+button{background:#d5aa69;border:0;border-radius:7px;padding:12px 20px;cursor:pointer;font-weight:bold}
+footer{background:#183b32;color:white;text-align:center;padding:25px;margin-top:30px}
+</style>
+</head>
+<body>
+<header>
+<h1>Camp Nevada</h1>
+<p>Discover Your Next Nevada Adventure</p>
+</header>
+<nav>
+<a href="#explore">Explore</a>
+<a href="#about">About</a>
+</nav>
+<section class="hero">
+<h2>One State. Endless Adventures.</h2>
+<p>Discover campgrounds, RV parks, public lands and boondocking opportunities across the Silver State.</p>
+<a href="#explore"><button>Explore Camping</button></a>
+</section>
+<section class="search" id="explore">
+<h2>Find Your Campsite</h2>
+<input id="search" placeholder="Search by location or campground..." oninput="filterSites()">
+<select id="type" onchange="filterSites()">
+<option value="">All Camping Types</option>
+<option>State Park</option>
+<option>National Park</option>
+<option>Forest Service</option>
+<option>BLM / Dispersed</option>
+</select>
+</section>
+<main class="grid" id="results"></main>
+<section class="search" id="about">
+<h2>Built for Nevada Explorers</h2>
+<p>Camp Nevada is a developing statewide camping discovery platform by Nevada Adventure Co. Listings are examples for this initial launch. Always confirm access, camping rules, fees and availability with the managing agency.</p>
+</section>
+<footer>
+<p>Camp Nevada</p>
+<p>Powered by Nevada Adventure Co.</p>
+<p>© 2026 Nevada Adventure Co.</p>
+</footer>
+<script>
+const sites=[
+{name:"Valley of Fire State Park",region:"Overton, Nevada",type:"State Park",note:"Desert scenery and established camping."},
+{name:"Great Basin National Park",region:"Baker, Nevada",type:"National Park",note:"Mountain camping near Wheeler Peak."},
+{name:"Humboldt-Toiyabe National Forest",region:"Nevada",type:"Forest Service",note:"Forest campgrounds and dispersed camping opportunities."},
+{name:"Black Rock Desert",region:"Gerlach, Nevada",type:"BLM / Dispersed",note:"Remote public-land camping; check current restrictions."},
+{name:"Cathedral Gorge State Park",region:"Panaca, Nevada",type:"State Park",note:"Camp near dramatic eroded formations."},
+{name:"Berlin-Ichthyosaur State Park",region:"Gabbs area, Nevada",type:"State Park",note:"Remote camping and historic attractions."}
+];
+function filterSites(){
+const q=document.getElementById("search").value.toLowerCase();
+const t=document.getElementById("type").value;
+const matches=sites.filter(s=>
+(s.name+" "+s.region+" "+s.note).toLowerCase().includes(q)&&(!t||s.type===t));
+document.getElementById("results").innerHTML=matches.length?
+matches.map(s=>`<article class="card"><h3>${s.name}</h3><p class="tag">${s.type}</p><p>${s.region}</p><p>${s.note}</p><button onclick="window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('${s.name}, Nevada'),'_blank')">View Map</button></article>`).join(""):
+"<p>No matching locations found.</p>";
+}
+filterSites();
+</script>
+</body>
+</html>
